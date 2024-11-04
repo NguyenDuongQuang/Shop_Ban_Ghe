@@ -128,7 +128,7 @@ public class SanPhamController {
         }
     }
 
-    //Chỉnh sửa ở phần tạo mới
+
     @PostMapping("/chinhSua-soLuong-SanPhamChiTiet")
     public ResponseEntity<?> ChinhSuaSoLuongSanPhamChiTiet(@RequestBody SPCTDTO spctdto) {
         SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietRepository.findByID(spctdto.getSpctId());

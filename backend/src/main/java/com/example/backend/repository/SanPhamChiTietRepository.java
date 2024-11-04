@@ -46,21 +46,13 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
     @Query(value = "SELECT * FROM san_pham_chi_tiet WHERE is_deleted = false AND san_pham_id = ?", nativeQuery = true)
     List<SanPhamChiTiet> findProductDetails();
 
-//    @Query(value = "SELECT pc.ma_mau_sac AS color_name, ps.kich_co AS size_name\n" +
-//            "FROM san_pham_chi_tiet pd\n" +
-//            "         JOIN mau_sac pc ON pd.mau_sac_id = pc.id\n" +
-//            "         JOIN kich_co ps ON pd.kich_co_id = ps.id\n" +
-//            "WHERE pd.san_pham_id = ?\n" +
-//            "GROUP BY pc.ma_mau_sac, ps.kich_co;", nativeQuery = true)
-//    List<String> getProduct(long id_product);
-
     @Query(value = "select tenAnh from hinh_anh where id_product = ? and anh_mac_dinh = true", nativeQuery = true)
     String getAnhMacDinh(long sanPham_id);
 
-    @Query(value = "select so_luong from san_pham_chi_tiet where  san_pham_id = ?1", nativeQuery = true)
+    @Query(value = "select so_luong from san_pham_chi_tiet where  san_pham_id = ?", nativeQuery = true)
     Integer getSoLuongHienCp(long san_pham_id);
 
-    @Query(value = "select * from san_pham_chi_tiet where san_pham_id = ?1 and is_deleted = false", nativeQuery = true)
+    @Query(value = "select * from san_pham_chi_tiet where san_pham_id = ? and is_deleted = false", nativeQuery = true)
     SanPhamChiTiet getSanPhamChiTiet( long san_pham_id);
 
     @Modifying

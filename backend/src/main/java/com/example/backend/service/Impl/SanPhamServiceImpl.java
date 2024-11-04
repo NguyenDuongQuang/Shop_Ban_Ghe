@@ -27,10 +27,8 @@ public class SanPhamServiceImpl implements SanPhamService {
     @Autowired
     SanPhamRepository repository;
 
-
     @Autowired
     LoaiSanPhamRepository loaiSanPhamRepository;
-
 
     @Autowired
     SanPhamChiTietRepository sanPhamChiTietRepository;

@@ -55,9 +55,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
 
-                .antMatchers("/login", "/payment/create", "/payment/return", "/khachHang/register","/sanPham/taoSanPham"
-                        , "/customer/cart/addToCart", "/customer/sanPham/danhSach", "/customer/sanPham/loc/gia","/customer/sanPham/timKiemTheoTen/{search}", "/chatLieu/danhSach", "/loaiSanPham/danhSach",
-                        "/nhaSanXuat/danhSach","/mauSac/danhSach", "/kichCo/danhSach","/sanPham/danhSach", "/customer/sanPham/loc/mau_sac", "/customer/sanPham/loc/kich_co"
+                .antMatchers("/login", "/payment/create", "/payment/return", "/khachHang/register","/sanPham/taoSanPham","/loaiSanPham/danhSach","/sanPham/danhSach"
+                        , "/customer/cart/addToCart", "/customer/sanPham/danhSach", "/customer/sanPham/loc/gia","/customer/sanPham/timKiemTheoTen/{search}", "/customer/sanPham/loc/mau_sac", "/customer/sanPham/loc/kich_co"
                         , "/customer/sanPham/loc/gia", "/customer/sanPham/loc/loai_san_pham", "/customer/sanPham/loc/chat_lieu"
                         , "/customer/sanPham/loc/nha_san_xuat", "/customer/sanPham/getSanPham/id={id}", "/customer/sanPham/getAnhSanPham/{id}", "/customer/sanPham/api/getSize/{id}",
                         "/customer/sanPham/api/getColor/{id}", "/customer/sanPham/api/getSoLuong", "/api/banHang/online/checkOut",
