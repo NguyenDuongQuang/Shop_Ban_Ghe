@@ -6,7 +6,6 @@ import lombok.Data;
 public class GioHangDTO {
     //Dùng để add to cart bên phía customer
 
-    private String kichCo;
 
     private String email;
 

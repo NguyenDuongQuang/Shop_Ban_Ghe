@@ -41,8 +41,8 @@ public interface ImageRepository extends JpaRepository<Anh,Long> {
     @Query(value = "select name from hinh_anh where id_product = ? and anh_mac_dinh = true limit 1", nativeQuery = true)
     String getTenAnhSanPham_HienThiDanhSach(long sanPham_id);
 
-    @Query(value = "select name from hinh_anh where id_product = ?1 and id_color = ?2 and anh_mac_dinh = true limit 1", nativeQuery = true)
-    String getAnhMacDinh(long san_pham_id, long mau_sac_id);
+    @Query(value = "select name from hinh_anh where id_product = ? and anh_mac_dinh = true limit 1", nativeQuery = true)
+    String getAnhMacDinh(long san_pham_id);
 
     @Query(value = "select name from hinh_anh where id_product = ?1 and id_color = ?2 and anh_mac_dinh = true", nativeQuery = true)
     String getAnhSPByMauSacAndSPID(long sanPham_id, long mau_sac_id);
