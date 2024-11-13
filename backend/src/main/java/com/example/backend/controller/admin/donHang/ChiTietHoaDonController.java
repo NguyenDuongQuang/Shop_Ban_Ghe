@@ -1,4 +1,4 @@
-package com.example.backend.controller.customer.banHang;
+package com.example.backend.controller.admin.donHang;
 
 
 import com.example.backend.repository.HoaDonChiTietRepository;
@@ -24,7 +24,6 @@ public class ChiTietHoaDonController {
     @Autowired
     HoaDonChiTietRepository hoaDonChiTietRepository;
 
-    //Trả ra hoá đơn theo ID, danh sách hoá đn, lịch s của hoá ơn đó
     @GetMapping("/choXacNhan/id={id}")
     public ResponseEntity<?> CTChoXacNhan(@PathVariable("id") long hoa_don_id) {
         return hoaDonDatHangService.CTChoXacNhan(hoa_don_id);
@@ -50,10 +49,10 @@ public class ChiTietHoaDonController {
         return hoaDonDatHangService.CTDaHuy(hoa_don_id);
     }
 
-//    @GetMapping("/xacNhanDaGiao/id={id}")
-//    public ResponseEntity<?> CTXacNhanDaGiao(@PathVariable("id") long hoa_don_id) {
-//        return hoaDonDatHangService.CTXacNhanDaGiao(hoa_don_id);
-//    }
+    @GetMapping("/xacNhanDaGiao/id={id}")
+    public ResponseEntity<?> CTXacNhanDaGiao(@PathVariable("id") long hoa_don_id) {
+        return hoaDonDatHangService.CTXacNhanDaGiao(hoa_don_id);
+    }
 
 
 }

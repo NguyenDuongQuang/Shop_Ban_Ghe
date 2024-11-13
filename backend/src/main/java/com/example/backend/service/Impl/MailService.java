@@ -40,7 +40,7 @@ public class MailService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        helper.setFrom("ndq1234pn@gmail.com");
+        helper.setFrom(hoaDon.getEmailNguoiNhan());
         helper.setTo(recipientEmail);
         helper.setSubject("Đơn hàng của bạn đã được đặt thành công");
 
@@ -72,7 +72,7 @@ public class MailService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        helper.setFrom("ndq1234pn@gmail.com");
+        helper.setFrom(hoaDon.getEmailNguoiNhan());
         helper.setTo(recipientEmail);
         helper.setSubject("Đơn hàng của bạn đã được nhân viên của chúng tôi xử lý");
 

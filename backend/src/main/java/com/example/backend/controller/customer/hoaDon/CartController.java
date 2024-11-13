@@ -17,9 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@RestController
 @RequestMapping("/gioHang")
-@CrossOrigin("*")
 public class CartController {
 
     @Autowired

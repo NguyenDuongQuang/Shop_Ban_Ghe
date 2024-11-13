@@ -57,7 +57,7 @@ public class BanHangOnlineServiceImpl implements BanHangOnlineService {
         Map<String, String> respone = new HashMap<>();
         HoaDon hoaDon = new HoaDon();
         hoaDon.setCreatedDate(new Date());
-        hoaDon.setCreatedby("hduong");
+        hoaDon.setCreatedby(dto.getEmail());
         billRepository.save(hoaDon);
 
         hoaDon.setMaHoaDon("HD" + hoaDon.getId());
@@ -211,22 +211,19 @@ public class BanHangOnlineServiceImpl implements BanHangOnlineService {
         for (GioHangChiTiet gioHangChiTiet : ghct) {
             for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTiets) {
                 if (hoaDonChiTiet.getSanPhamChiTiet().getId() == gioHangChiTiet.getSanPhamChiTiet().getId()) {
-                    System.out.println("done");
                     gioHangChiTietRepository.deleteById(gioHangChiTiet.getId());
                 }
             }
 
         }
 
-//        if (hoaDon.getEmailNguoiNhan() != null && !hoaDon.getEmailNguoiNhan().isEmpty()) {
-//            try {
-//                mailService.sendOrderConfirmationEmail(hoaDon.getEmailNguoiNhan(), hoaDon);
-//            } catch (MessagingException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-//        hoaDonDatHangService.createTimeLine("Tạo đơn hàng", 1L, hoaDon.getId(), khachHang.getHoTen());
+        if (hoaDon.getEmailNguoiNhan() != null && !hoaDon.getEmailNguoiNhan().isEmpty()) {
+            try {
+                mailService.sendOrderConfirmationEmail(hoaDon.getEmailNguoiNhan(), hoaDon);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

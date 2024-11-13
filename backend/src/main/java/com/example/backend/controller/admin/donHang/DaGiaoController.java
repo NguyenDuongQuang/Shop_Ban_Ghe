@@ -1,4 +1,4 @@
-package com.example.backend.controller.customer.banHang;
+package com.example.backend.controller.admin.donHang;
 
 import com.example.backend.dto.HoaDonDTO;
 import com.example.backend.entity.HoaDon;
@@ -14,28 +14,30 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/hoaDon/datHang/choXacNhan")
-public class ChoXacNhanController {
-
+@RequestMapping("/hoaDon/datHang/daGiaoHang")
+public class DaGiaoController {
     @Autowired
     BillOrderService hoaDonDatHangService;
 
     @Autowired
-    private NhanVienRepository nhanVienRepository;
+    NhanVienRepository nhanVienRepository;
 
     @GetMapping("/danhSach")
-    public List<HoaDon> listBill1() {
+    public List<HoaDon> listBill4() {
+        return hoaDonDatHangService.findHoaDonByTrangThai(4);
+    }
 
-        return hoaDonDatHangService.findHoaDonByTrangThai(1L);
+
+    @RequestMapping("/timKiem={search}")
+    public List<HoaDon> searchAllBill4(@PathVariable("search") String search) {
+        return hoaDonDatHangService.searchAllBill(4, search);
     }
-    @PostMapping("/capNhatTrangThai/daXacNhan")
-    public ResponseEntity<?> updateStatus2(@RequestBody HoaDonDTO hoaDonDTO)  {
-        Long id = hoaDonDTO.getId();
-        String email = hoaDonDTO.getEmail_user();
-        NhanVien nhanVien = nhanVienRepository.findByEmail(email);
-//        hoaDonDatHangService.createTimeLine("Xác nhận đơn", 2, id, nhanVien.getHoTen());
-        return ResponseEntity.ok().body(hoaDonDatHangService.updateTrangThai(2, id));
+
+    @RequestMapping("/timKiemNgay={searchDate}")
+    public List<HoaDon> searchDateBill4(@PathVariable("searchDate") String searchDate) {
+        return hoaDonDatHangService.searchDateBill(4, searchDate);
     }
+
     @PostMapping("/capNhatTrangThai/huyDon")
     public ResponseEntity<Map<String, Boolean>> updateStatus5(@RequestBody HoaDonDTO hoaDonDTO) {
         Long id = hoaDonDTO.getId();
@@ -43,8 +45,8 @@ public class ChoXacNhanController {
         String email = hoaDonDTO.getEmail_user();
         NhanVien nhanVien = nhanVienRepository.findByEmail(email);
         hoaDonDatHangService.capNhatTrangThaiHuyDon(5, id, ghiChu);
-//        hoaDonDatHangService.createTimeLine("Huỷ đơn", 5, id, nhanVien.getHoTen());
         return ResponseEntity.ok().build();
     }
+
 
 }

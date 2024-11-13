@@ -66,7 +66,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/muaNgay/check-out", "/api/muaNgay/add/khuyenMai",
                         "/api/muaNgay/datHang", "/payment/MuaNgay/create", "/payment/MuaNgay/return", "/customer/sanPham/getAnhMacDinhSanPham/{id}", "/customer/sanPham/getAnhByMauSac",
                         "/api/password/get-keys", "/api/password/check-keys", "/api/password/fogot-password",
-                        "/customer/changePass", "/api/muaNgay/khuyenMai/list"
+                        "/customer/changePass", "/hoaDon/khachHang/donHang/danhSach"
                 ).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()

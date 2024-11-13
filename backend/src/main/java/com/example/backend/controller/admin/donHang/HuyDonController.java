@@ -1,4 +1,4 @@
-package com.example.backend.controller.customer.banHang;
+package com.example.backend.controller.admin.donHang;
 
 import com.example.backend.entity.HoaDon;
 import com.example.backend.service.BillOrderService;
@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/hoaDon/datHang/daHuy")
-public class HuyDonController  {
+public class HuyDonController {
     @Autowired
     BillOrderService hoaDonDatHangService;
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/banHang/online")
+@CrossOrigin("*")
 public class BanHangOnlineController {
 
     @Autowired

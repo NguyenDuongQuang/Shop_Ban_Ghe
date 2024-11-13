@@ -1,6 +1,7 @@
 package com.example.backend.service.Impl;
 
 import com.example.backend.dto.HoaDonChiTietDTO;
+import com.example.backend.dto.HoaDonDTO;
 import com.example.backend.entity.*;
 import com.example.backend.repository.*;
 import com.example.backend.service.BillOrderService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
@@ -29,6 +31,12 @@ public class BillOrderServiceImpl implements BillOrderService {
 
     @Autowired
     GioHangChiTietRepository gioHangChiTietRepository;
+
+    @Autowired
+    ImageRepository hinhAnhRepository;
+
+    @Autowired
+    MailService  mailService;
     @Override
     public List<HoaDon> findHoaDonByTrangThai(long trang_thai_id) {
         List<HoaDon> hoaDonList = hoaDonRepository.findHoaDonByTrangThai(trang_thai_id);
@@ -168,12 +176,11 @@ public class BillOrderServiceImpl implements BillOrderService {
     public ResponseEntity<?> CTChoXacNhan(long id_hoa_don) {
         HoaDon hoaDon = hoaDonRepository.findByID(id_hoa_don);
         List<HoaDonChiTiet> hoaDonChiTiets = hoaDonChiTietRepository.findByIDBill(hoaDon.getId());
-//        LichSuHoaDon timeLine_ChoXacNhan = lichSuHoaDonRepository.getTimeLine(hoaDon.getId(), 1L);
         List<HoaDonChiTietDTO> dto = new ArrayList<>();
         for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTiets) {
             SanPhamChiTiet sanPhamChiTiet = hoaDonChiTiet.getSanPhamChiTiet();
             HoaDon hoaDon2 = hoaDonChiTiet.getHoaDon();
-//            String anh_san_pham = hinhAnhRepository.getAnhSPByMauSacAndSPID(sanPhamChiTiet.getSanPham().getId());
+            String anh_san_pham = hinhAnhRepository.getAnhSPByMauSacAndSPID(sanPhamChiTiet.getSanPham().getId());
 
             HoaDonChiTietDTO hoaDonChiTietDTO = new HoaDonChiTietDTO();
             hoaDonChiTietDTO.setId(hoaDonChiTiet.getId());
@@ -183,7 +190,7 @@ public class BillOrderServiceImpl implements BillOrderService {
             hoaDonChiTietDTO.setThanhTien(hoaDonChiTiet.getThanhTien());
             hoaDonChiTietDTO.setHoaDon(hoaDon2);
             hoaDonChiTietDTO.setSanPhamChiTiet(sanPhamChiTiet);
-//            hoaDonChiTietDTO.setAnhSanPham(anh_san_pham);
+            hoaDonChiTietDTO.setAnhSanPham(anh_san_pham);
 
             dto.add(hoaDonChiTietDTO);
         }
@@ -204,7 +211,7 @@ public class BillOrderServiceImpl implements BillOrderService {
         for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTiets) {
             SanPhamChiTiet sanPhamChiTiet = hoaDonChiTiet.getSanPhamChiTiet();
             HoaDon hoaDon2 = hoaDonChiTiet.getHoaDon();
-//            String anh_san_pham = hinhAnhRepository.getAnhSPByMauSacAndSPID(sanPhamChiTiet.getSanPham().getId());
+            String anh_san_pham = hinhAnhRepository.getAnhSPByMauSacAndSPID(sanPhamChiTiet.getSanPham().getId());
 
             HoaDonChiTietDTO hoaDonChiTietDTO = new HoaDonChiTietDTO();
             hoaDonChiTietDTO.setId(hoaDonChiTiet.getId());
@@ -214,7 +221,7 @@ public class BillOrderServiceImpl implements BillOrderService {
             hoaDonChiTietDTO.setThanhTien(hoaDonChiTiet.getThanhTien());
             hoaDonChiTietDTO.setHoaDon(hoaDon2);
             hoaDonChiTietDTO.setSanPhamChiTiet(sanPhamChiTiet);
-//            hoaDonChiTietDTO.setAnhSanPham(anh_san_pham);
+            hoaDonChiTietDTO.setAnhSanPham(anh_san_pham);
 
             dto.add(hoaDonChiTietDTO);
         }
@@ -232,7 +239,7 @@ public class BillOrderServiceImpl implements BillOrderService {
         for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTiets) {
             SanPhamChiTiet sanPhamChiTiet = hoaDonChiTiet.getSanPhamChiTiet();
             HoaDon hoaDon2 = hoaDonChiTiet.getHoaDon();
-//            String anh_san_pham = hinhAnhRepository.getAnhSPByMauSacAndSPID(sanPhamChiTiet.getSanPham().getId(), sanPhamChiTiet.getMauSac().getId());
+            String anh_san_pham = hinhAnhRepository.getAnhSPByMauSacAndSPID(sanPhamChiTiet.getSanPham().getId());
 
             HoaDonChiTietDTO hoaDonChiTietDTO = new HoaDonChiTietDTO();
             hoaDonChiTietDTO.setId(hoaDonChiTiet.getId());
@@ -242,7 +249,7 @@ public class BillOrderServiceImpl implements BillOrderService {
             hoaDonChiTietDTO.setThanhTien(hoaDonChiTiet.getThanhTien());
             hoaDonChiTietDTO.setHoaDon(hoaDon2);
             hoaDonChiTietDTO.setSanPhamChiTiet(sanPhamChiTiet);
-//            hoaDonChiTietDTO.setAnhSanPham(anh_san_pham);
+            hoaDonChiTietDTO.setAnhSanPham(anh_san_pham);
 
             dto.add(hoaDonChiTietDTO);
         }
@@ -260,19 +267,18 @@ public class BillOrderServiceImpl implements BillOrderService {
         for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTiets) {
             SanPhamChiTiet sanPhamChiTiet = hoaDonChiTiet.getSanPhamChiTiet();
             HoaDon hoaDon2 = hoaDonChiTiet.getHoaDon();
-//            String anh_san_pham = hinhAnhRepository.getAnhSPByMauSacAndSPID(sanPhamChiTiet.getSanPham().getId(), sanPhamChiTiet.getMauSac().getId());
+            String anh_san_pham = hinhAnhRepository.getAnhSPByMauSacAndSPID(sanPhamChiTiet.getSanPham().getId());
 
             HoaDonChiTietDTO hoaDonChiTietDTO = new HoaDonChiTietDTO();
             hoaDonChiTietDTO.setId(hoaDonChiTiet.getId());
             hoaDonChiTietDTO.setIdProduct(sanPhamChiTiet.getSanPham().getId());
-//            hoaDonChiTietDTO.setIdColor(sanPhamChiTiet.getMauSac().getId());
-//            hoaDonChiTietDTO.setIdSize(sanPhamChiTiet.getKichCo().getId());
+
             hoaDonChiTietDTO.setSoLuong(hoaDonChiTiet.getSoLuong());
             hoaDonChiTietDTO.setDonGia(hoaDonChiTiet.getDonGia());
             hoaDonChiTietDTO.setThanhTien(hoaDonChiTiet.getThanhTien());
             hoaDonChiTietDTO.setHoaDon(hoaDon2);
             hoaDonChiTietDTO.setSanPhamChiTiet(sanPhamChiTiet);
-//            hoaDonChiTietDTO.setAnhSanPham(anh_san_pham);
+            hoaDonChiTietDTO.setAnhSanPham(anh_san_pham);
 
             dto.add(hoaDonChiTietDTO);
         }
@@ -284,6 +290,122 @@ public class BillOrderServiceImpl implements BillOrderService {
 
     @Override
     public ResponseEntity<?> CTDaHuy(long id_hoa_don) {
-        return null;
+        HoaDon hoaDon = hoaDonRepository.findByID(id_hoa_don);
+        List<HoaDonChiTiet> hoaDonChiTiets = hoaDonChiTietRepository.findByIDBill(hoaDon.getId());
+        List<HoaDonChiTietDTO> dto = new ArrayList<>();
+        for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTiets) {
+            SanPhamChiTiet sanPhamChiTiet = hoaDonChiTiet.getSanPhamChiTiet();
+            HoaDon hoaDon2 = hoaDonChiTiet.getHoaDon();
+           String anh_san_pham = hinhAnhRepository.getAnhSPByMauSacAndSPID(sanPhamChiTiet.getSanPham().getId());
+
+            HoaDonChiTietDTO hoaDonChiTietDTO = new HoaDonChiTietDTO();
+            hoaDonChiTietDTO.setId(hoaDonChiTiet.getId());
+            hoaDonChiTietDTO.setIdProduct(sanPhamChiTiet.getSanPham().getId());
+            hoaDonChiTietDTO.setSoLuong(hoaDonChiTiet.getSoLuong());
+            hoaDonChiTietDTO.setDonGia(hoaDonChiTiet.getDonGia());
+            hoaDonChiTietDTO.setThanhTien(hoaDonChiTiet.getThanhTien());
+            hoaDonChiTietDTO.setHoaDon(hoaDon2);
+            hoaDonChiTietDTO.setSanPhamChiTiet(sanPhamChiTiet);
+            hoaDonChiTietDTO.setAnhSanPham(anh_san_pham);
+
+            dto.add(hoaDonChiTietDTO);
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("list_HDCT", dto);
+        response.put("hoaDon", hoaDon);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @Override
+    public ResponseEntity<?> CTXacNhanDaGiao(long id_hoa_don) {
+        HoaDon hoaDon = hoaDonRepository.findByID(id_hoa_don);
+        List<HoaDonChiTiet> hoaDonChiTiets = hoaDonChiTietRepository.findByIDBill(hoaDon.getId());
+        List<HoaDonChiTietDTO> dto = new ArrayList<>();
+        for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTiets) {
+            SanPhamChiTiet sanPhamChiTiet = hoaDonChiTiet.getSanPhamChiTiet();
+            HoaDon hoaDon2 = hoaDonChiTiet.getHoaDon();
+            String anh_san_pham = hinhAnhRepository.getAnhSPByMauSacAndSPID(sanPhamChiTiet.getSanPham().getId());
+
+            HoaDonChiTietDTO hoaDonChiTietDTO = new HoaDonChiTietDTO();
+            hoaDonChiTietDTO.setId(hoaDonChiTiet.getId());
+            hoaDonChiTietDTO.setIdProduct(sanPhamChiTiet.getSanPham().getId());
+            hoaDonChiTietDTO.setSoLuong(hoaDonChiTiet.getSoLuong());
+            hoaDonChiTietDTO.setDonGia(hoaDonChiTiet.getDonGia());
+            hoaDonChiTietDTO.setThanhTien(hoaDonChiTiet.getThanhTien());
+            hoaDonChiTietDTO.setHoaDon(hoaDon2);
+            hoaDonChiTietDTO.setSanPhamChiTiet(sanPhamChiTiet);
+            hoaDonChiTietDTO.setAnhSanPham(anh_san_pham);
+
+            dto.add(hoaDonChiTietDTO);
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("list_HDCT", dto);
+        response.put("hoaDon", hoaDon);
+        return ResponseEntity.ok().body(response);
+    }
+    @Override
+    public List<HoaDon> findHoaDonByLoai(int loai_hoa_don) {
+        List<HoaDon> hoaDonList = hoaDonRepository.findHoaDonByLoai(loai_hoa_don);
+        return hoaDonList;
+    }
+
+    @Override
+    public ResponseEntity<Map<String, Boolean>> capNhatTrangThai_TatCa(long trang_thai_id,
+                                                                       long trang_thai_id_sau, String thaoTac, String nguoiThaoTac) {
+        List<HoaDon> list = hoaDonRepository.findHoaDonByTrangThai(trang_thai_id);
+        for (HoaDon hoaDon : list) {
+            Optional<TrangThai> optionalTrangThai = trangThaiRepository.findById(trang_thai_id_sau);
+            if (optionalTrangThai.isPresent()) {
+                TrangThai trangThai = optionalTrangThai.get();
+                hoaDon.setTrangThai(trangThai);
+                hoaDonRepository.save(hoaDon);
+                try {
+                    mailService.guiMailKhiThaoTac(hoaDon.getEmailNguoiNhan(), hoaDon);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public List<HoaDon> capNhatTrangThai_DaChon(HoaDonDTO hoaDonDTO, long trang_thai_id, String thaoTac, String
+            nguoiThaoTac) {
+        for (Long id_hoaDon : hoaDonDTO.getId_hoaDon()) {
+            HoaDon hoaDon = hoaDonRepository.findByID(id_hoaDon);
+            Optional<TrangThai> optionalTrangThai = trangThaiRepository.findById(trang_thai_id);
+            if (optionalTrangThai.isPresent()) {
+                TrangThai trangThai = optionalTrangThai.get();
+                hoaDon.setTrangThai(trangThai);
+                hoaDonRepository.save(hoaDon);
+            }
+        }
+        List<HoaDon> hoaDonList = hoaDonRepository.findHoaDonByTrangThai(trang_thai_id - 1);
+        return hoaDonList;
+    }
+
+    @Override
+    public List<HoaDon> capNhatTrangThaiHuy_DaChon(HoaDonDTO hoaDonDTO, String nguoiThaoTac, String ghiChu) {
+        for (Long id_hoaDon : hoaDonDTO.getId_hoaDon()) {
+            HoaDon hoaDon = hoaDonRepository.findByID(id_hoaDon);
+            Optional<TrangThai> optionalTrangThai = trangThaiRepository.findById(5L);
+            if (optionalTrangThai.isPresent()) {
+                TrangThai trangThai = optionalTrangThai.get();
+                hoaDon.setTrangThai(trangThai);
+                hoaDon.setGhiChu(ghiChu);
+                hoaDonRepository.save(hoaDon);
+
+                List<HoaDonChiTiet> hoaDonChiTiets = hoaDonChiTietRepository.findByIDBill(hoaDon.getId());
+                for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTiets) {
+                    SanPhamChiTiet sanPhamChiTiet = hoaDonChiTiet.getSanPhamChiTiet();
+                    sanPhamChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong() + sanPhamChiTiet.getSoLuong());
+                    sanPhamChiTiet.setSoLuongTam(hoaDonChiTiet.getSoLuong() + sanPhamChiTiet.getSoLuong());
+                    sanPhamChiTietRepository.save(sanPhamChiTiet);
+                }
+            }
+        }
+        List<HoaDon> hoaDonList = hoaDonRepository.findHoaDonByTrangThai(1L);
+        return hoaDonList;
     }
 }
