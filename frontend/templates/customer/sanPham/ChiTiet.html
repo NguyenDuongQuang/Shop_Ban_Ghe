@@ -1,0 +1,53 @@
+<div class="container-fluid mt-5 mb-5" ng-controller="ChiTietSanPhamController">
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-md-6 border-end">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="main_image">
+                        <img src="/static/img/{{hinhAnh}}" id="main_product_image" width="350" />
+                    </div>
+                    <div class="thumbnail-container">
+                        <div id="thumbnail-container-inner">
+                            <ul id="thumbnail">
+                                <li ng-repeat="ha in hinhAnhs" ng-if="ha">
+                                    <img onclick="changeImage(this)" src="/static/img/{{ha.tenAnh}}" width="80" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="p-3 right-side">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3>{{sanPham.tenSanPham}}</h3>
+                    </div>
+                    <div class="mt-2 pr-3 content">
+                        <p>{{sanPham.moTa}}</p>
+                    </div>
+
+                    <h3>{{sanPham.gia.toLocaleString('vi-VN')}} VNĐ</h3>
+
+                    <div class="mt-5">
+                        <div class="colors" id="div-inputSoLuong">
+                            <h6 for="input-chonSoLuong">Chọn số lượng:</h6>
+                            <input type="number" id="input-chonSoLuong" class="form-control" ng-model="chonSoLuong" />
+                        </div>
+                    </div>
+
+                    <div class="buttons d-flex flex-row mt-5 gap-3">
+                        <button class="btn btn-outline-dark" id="button-muaNgay-customer" ng-click="muaNgay(sanPham)"
+                            ng-show="isButtonVisible1">
+                            Mua ngay
+                        </button>
+                        <button class="btn btn-dark" id="button-themGioHang-customer" ng-click="addToCart(sanPham)"
+                            ng-show="isButtonVisible2">
+                            Thêm vào giỏ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

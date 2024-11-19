@@ -1,0 +1,97 @@
+<div class="container-fluid" layout:fragment="content" :ng-controller="CTXacNhanDaGiao">
+    <h1>CHI TIẾT HÓA ĐƠN</h1>
+    <div th:object="${hoaDon}">
+        <input type="hidden" id="IDHoaDonCXN" />
+        <p>Mã đơn: <span>{{ hoaDon.maHoaDon}}</span></p>
+        <p>Ngày tạo: <span>{{ hoaDon.createdDate | date:'dd/MM/yyyy' }}</span></p>
+        <p>Tên khách hàng: <span>{{ hoaDon.nguoiNhan}}</span></p>
+
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th data-field="state" data-checkbox="true"></th>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Thành tiền</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="CTXacNhanDaGiao in hdct">
+                        <td>{{$index + 1}}</td>
+                        <td>
+                            <div style="display: flex; align-items: center">
+                                <img
+                                    src="/static/img/{{CTXacNhanDaGiao.anhSanPham}}"
+                                    alt=""
+                                    style="margin-right: 10px"
+                                    width="100px"
+                                    height="100px"
+                                />
+
+                                <div>
+                                    <h6>
+                                        <strong>
+                                            <span style="text-transform: uppercase" class="TenSP"
+                                                >{{ CTXacNhanDaGiao.sanPhamChiTiet.sanPham.tenSanPham}}</span
+                                            >
+                                        </strong>
+                                    </h6>
+                                    <div class="ThongTinSP">
+                                        <span>{{ CTXacNhanDaGiao.sanPhamChiTiet.mauSac.tenMauSac}}</span>
+                                        <span>/</span>
+                                        <span>{{ CTXacNhanDaGiao.sanPhamChiTiet.kichCo.kichCo}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ CTXacNhanDaGiao.donGia.toLocaleString('vi-VN') + ' VNĐ' }}</td>
+
+                        <td>{{ CTXacNhanDaGiao.soLuong}}</td>
+
+                        <td>{{ CTXacNhanDaGiao.thanhTien.toLocaleString('vi-VN') + ' VNĐ' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Tổng giá trị đơn hàng: <span>{{ hoaDon.tongTienHoaDon.toLocaleString('vi-VN') + ' VNĐ' }}</span></p>
+        <p>Phí vận chuyển: <span>{{ hoaDon.tienShip.toLocaleString('vi-VN') + ' VNĐ' }}</span></p>
+        <p>
+            Giảm giá:
+            <span>{{ hoaDon.tienGiam.toLocaleString('vi-VN') + ' VNĐ' }}</span>
+        </p>
+        <p>Tổng tiền thanh toán: <span>{{ hoaDon.tongTienDonHang.toLocaleString('vi-VN') + ' VNĐ' }}</span></p>
+        <p>Trạng thái thanh toán: <span>{{ hoaDon.loaiHoaDon==0?"Thanh toán khi nhận hàng":"Đã thanh toán" }}</span></p>
+    </div>
+
+    <br />
+    <hr />
+
+
+    <div class="container-fluid">
+      
+        <div class="button-group" id="button-chiTietHoaDon">
+            <!--XÁC NHẬN ĐƠN HÀNG-->
+            <button class="action-button XacNhanDon" th:attr="data-id=${hoaDon.id}" ng-click="confirm ()">
+                Xác nhận đơn
+                <i class="fas fa-check"></i>
+            </button>
+
+            <!--HỦY ĐƠN HÀNG-->
+            <button class="action-button HuyDon" th:attr="data-id=${hoaDon.id}" ng-click="huyDon()">
+                Hủy đơn
+                <i class="fas fa-times"></i>
+            </button>
+
+            <input type="hidden" id="idChiTietHoaDon" />
+
+            <button class="action-button" ng-click="quayLai()">
+                Quay lại
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+    </div>
+</div>

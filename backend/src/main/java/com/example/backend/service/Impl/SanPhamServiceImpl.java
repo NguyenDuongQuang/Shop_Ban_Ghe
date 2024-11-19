@@ -135,6 +135,7 @@ public class SanPhamServiceImpl implements SanPhamService {
 
         LoaiSanPham loaiSanPham = loaiSanPhamRepository.findByID(sanPhamDTO.getLoaiSanPham_id());
 
+
         SanPham sanPham = new SanPham();
         sanPham.setTenSanPham(sanPhamDTO.getTenSanPham());
         sanPham.setGia(sanPhamDTO.getGia());
